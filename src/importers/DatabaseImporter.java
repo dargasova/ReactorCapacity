@@ -1,10 +1,8 @@
 package importers;
-
 import reactors.Reactor;
 import reactors.ReactorType;
 import reactors.ReactorsTypesOwner;
 import regions.Regions;
-
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,7 +22,6 @@ public class DatabaseImporter {
 
         try (Connection conn = DriverManager.getConnection(DB_URL)) {
             if (conn != null) {
-                // Read reactors data
                 String reactorQuery = "SELECT * FROM reactors";
                 try (Statement stmt = conn.createStatement();
                      ResultSet rs = stmt.executeQuery(reactorQuery)) {
@@ -48,7 +45,6 @@ public class DatabaseImporter {
                     }
                 }
 
-                // Read load_factors data and add to corresponding reactors
                 String loadFactorQuery = "SELECT * FROM load_factors";
                 try (Statement stmt = conn.createStatement();
                      ResultSet rs = stmt.executeQuery(loadFactorQuery)) {
@@ -58,7 +54,6 @@ public class DatabaseImporter {
                         Integer year = rs.getInt("year");
                         Double loadFactor = rs.getDouble("loadFactor");
 
-                        // Find the reactor and add the load factor
                         reactorsByCountry.values().stream()
                                 .flatMap(List::stream)
                                 .filter(reactor -> reactor.getName().equals(name))
@@ -68,7 +63,6 @@ public class DatabaseImporter {
                 }
             }
 
-            // Fix load factors for all reactors
             reactorsByCountry.values().stream()
                     .flatMap(List::stream)
                     .forEach(Reactor::fixLoadFactors);

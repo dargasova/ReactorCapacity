@@ -10,22 +10,42 @@ import java.util.*;
 import java.util.List;
 
 public class GroupedCalculatorWindow extends JDialog {
-    private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton byCountryButton;
-    private JButton byOperatorButton;
-    private JButton byRegionButton;
+    private JPanel contentPane = new JPanel();
+    private JButton buttonOK = new JButton("OK");
+    private JButton byCountryButton = new JButton("By Country");
+    private JButton byOperatorButton = new JButton("By Operator");
+    private JButton byRegionButton = new JButton("By Region");
     private JTable resultTable;
     private ConsumptionCalculator calculator;
 
     public GroupedCalculatorWindow(Regions regions, Map<String, List<Reactor>> reactors) {
         calculator = new ConsumptionCalculator(reactors, regions);
 
-        setContentPane(contentPane);
+        setContentPane(contentPane); // Устанавливаем созданный JPanel в качестве contentPane
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
+        initializeComponents(); // Добавляем инициализацию компонентов GUI
         addListeners();
+    }
+
+    private void initializeComponents() {
+        contentPane.setLayout(new BorderLayout());
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+
+        buttonPanel.add(byCountryButton);
+        buttonPanel.add(byOperatorButton);
+        buttonPanel.add(byRegionButton);
+
+        contentPane.add(buttonPanel, BorderLayout.NORTH);
+
+        resultTable = new JTable();
+        JScrollPane scrollPane = new JScrollPane(resultTable);
+        contentPane.add(scrollPane, BorderLayout.CENTER);
+
+        contentPane.add(buttonOK, BorderLayout.SOUTH);
     }
 
     private void addCalculateListeners() {
@@ -60,8 +80,13 @@ public class GroupedCalculatorWindow extends JDialog {
     }
 
     private void addListeners() {
-        buttonOK.addActionListener(e -> dispose());
+        buttonOK.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
 
+        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -69,32 +94,13 @@ public class GroupedCalculatorWindow extends JDialog {
             }
         });
 
-        contentPane.registerKeyboardAction(e -> dispose(),
-                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        // call onCancel() on ESCAPE
+        contentPane.registerKeyboardAction(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         addCalculateListeners();
-    }
-
-    private void createUIComponents() {
-        contentPane = new JPanel(new BorderLayout(10, 10));
-
-        JPanel buttonPanel = new JPanel(new GridLayout(1, 3, 10, 0));
-        byCountryButton = new JButton("По стране");
-        byOperatorButton = new JButton("По оператору");
-        byRegionButton = new JButton("По региону");
-        buttonPanel.add(byCountryButton);
-        buttonPanel.add(byOperatorButton);
-        buttonPanel.add(byRegionButton);
-
-        buttonOK = new JButton("OK");
-
-        resultTable = new JTable();
-        JScrollPane scrollPane = new JScrollPane(resultTable);
-        scrollPane.setBorder(BorderFactory.createTitledBorder("Результаты расчетов"));
-
-        contentPane.add(buttonPanel, BorderLayout.NORTH);
-        contentPane.add(scrollPane, BorderLayout.CENTER);
-        contentPane.add(buttonOK, BorderLayout.SOUTH);
     }
 }

@@ -1,4 +1,5 @@
 import javax.swing.SwingUtilities;
+import java.net.URISyntaxException;
 
 public class Main {
     public static void main(String[] args) {
@@ -6,7 +7,7 @@ public class Main {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                MainWindow window = new MainWindow();
+                GUI gui = new GUI();
             }
         });
     }

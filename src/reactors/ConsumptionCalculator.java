@@ -25,7 +25,7 @@ public class ConsumptionCalculator {
 
         for (Integer year: reactor.getLoadFactors().keySet()) {
             Double consumption = reactor.getThermalCapacity() /
-                    reactor.getReactorType().getBurnup() * reactor.getLoadFactors().get(year) / 100000 * 365;
+                    reactor.getReactorType().getburn_up() * reactor.getLoadFactors().get(year) / 100000 * 365;
             consumptionPerYear.put(year, consumption);
         }
 
@@ -60,9 +60,7 @@ public class ConsumptionCalculator {
         }
 
         Map<String, Map<Integer, Double>> sortedConsumption = new TreeMap<>(consumption);
-        for (String entity : sortedConsumption.keySet()) {
-            sortedConsumption.put(entity, new TreeMap<>(sortedConsumption.get(entity)));
-        }
+        sortedConsumption.replaceAll((e, v) -> new TreeMap<>(sortedConsumption.get(e)));
 
         return sortedConsumption;
     }

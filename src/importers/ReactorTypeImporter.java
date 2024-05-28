@@ -9,7 +9,7 @@ public abstract class ReactorTypeImporter {
 
     public void setNextImporter(ReactorTypeImporter reactorImporter) {
         this.nextImporter = reactorImporter;
-    };
+    }
 
     public abstract void importReactorsFromFile(File file, ReactorsTypesOwner reactorsOwner);
 }

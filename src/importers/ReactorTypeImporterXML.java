@@ -55,12 +55,12 @@ public class ReactorTypeImporterXML extends ReactorTypeImporter{
         return new ReactorType(
                 type,
                 attributes.get("class"),
-                getDouble(attributes, "burnup"),
-                getDouble(attributes, "kpd"),
+                getDouble(attributes, "burn_up"),
+                getDouble(attributes, "efficiency_factor"),
                 getDouble(attributes, "enrichment"),
-                getDouble(attributes, "termal_capacity"),
+                getDouble(attributes, "thermal_capacity"),
                 getDouble(attributes, "electrical_capacity"),
-                getInt(attributes, "life_time"),
+                getInt(attributes),
                 getDouble(attributes, "first_load"),
                 "XML"
         );
@@ -84,7 +84,7 @@ public class ReactorTypeImporterXML extends ReactorTypeImporter{
         return !attributes.containsKey(key) || attributes.get(key).isEmpty() ? null : Double.parseDouble(attributes.get(key));
     }
 
-    private Integer getInt(Map<String, String> attributes, String key) {
-        return !attributes.containsKey(key) || attributes.get(key).isEmpty() ? null : Integer.parseInt(attributes.get(key));
+    private Integer getInt(Map<String, String> attributes) {
+        return !attributes.containsKey("life_time") || attributes.get("life_time").isEmpty() ? null : Integer.parseInt(attributes.get("life_time"));
     }
 }

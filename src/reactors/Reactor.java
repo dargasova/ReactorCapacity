@@ -1,8 +1,7 @@
 package reactors;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.Objects;
 
 public class Reactor {
     private String name;
@@ -33,7 +32,6 @@ public class Reactor {
         this.permanentShutdownDate = permanentShutdownDate;
     }
 
-    // Getters and setters for each field
     public String getName() {
         return name;
     }
@@ -91,7 +89,7 @@ public class Reactor {
     }
 
     public void addLoadFactor(Integer year, Double loadFactor) {
-        if (year == this.getFirstGridConnection()) {
+        if (Objects.equals(year, this.getFirstGridConnection())) {
             loadFactor *= 3;
         }
         loadFactors.put(year, loadFactor);

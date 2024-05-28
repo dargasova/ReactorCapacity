@@ -39,10 +39,10 @@ public class ReactorTypeImporterYAML extends ReactorTypeImporter {
         return new ReactorType(
                 (String) innerMap.get("type"),
                 (String) innerMap.get("class"),
-                ((Number) innerMap.get("burnup")).doubleValue(),
-                ((Number) innerMap.get("kpd")).doubleValue(),
+                ((Number) innerMap.get("burn_up")).doubleValue(),
+                ((Number) innerMap.get("efficiency_factor")).doubleValue(),
                 ((Number) innerMap.get("enrichment")).doubleValue(),
-                ((Number) innerMap.get("termal_capacity")).doubleValue(),
+                ((Number) innerMap.get("thermal_capacity")).doubleValue(),
                 ((Number) innerMap.get("electrical_capacity")).doubleValue(),
                 (Integer) innerMap.get("life_time"),
                 ((Number) innerMap.get("first_load")).doubleValue(),
