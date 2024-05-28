@@ -6,7 +6,7 @@ import java.util.Map;
 
 
 public class ReactorsTypesOwner {
-    private Map<String, ReactorType> reactorsMap;
+    private final Map<String, ReactorType> reactorsMap;
 
     public ReactorsTypesOwner() {
         this.reactorsMap = new HashMap<>();

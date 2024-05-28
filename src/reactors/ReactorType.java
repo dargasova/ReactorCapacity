@@ -2,16 +2,15 @@ package reactors;
 
 
 public class ReactorType {
-    private String type;
-    private String reactorClass;
-    private Double burn_up;
-    private Double electricalCapacity;
-    private Double enrichment;
-    private Double firstLoad;
-    private Double efficiency_factor;
-    private Integer lifeTime;
-    private Double heatCapacity;
-    private String source;
+    private final String reactorClass;
+    private final Double burn_up;
+    private final Double electricalCapacity;
+    private final Double enrichment;
+    private final Double firstLoad;
+    private final Double efficiency_factor;
+    private final Integer lifeTime;
+    private final Double heatCapacity;
+    private final String source;
 
     public ReactorType(
             String type, String reactorClass, Double burn_up,
@@ -19,7 +18,6 @@ public class ReactorType {
             Double electricalCapacity, Integer lifeTime, Double firstLoad,
             String source
     ) {
-        this.type = type;
         this.reactorClass = reactorClass;
         this.burn_up = burn_up;
         this.electricalCapacity = electricalCapacity;
@@ -29,10 +27,6 @@ public class ReactorType {
         this.lifeTime = lifeTime;
         this.heatCapacity = heatCapacity;
         this.source = source;
-    }
-
-    public Double getburn_up() {
-        return burn_up;
     }
 
     @Override

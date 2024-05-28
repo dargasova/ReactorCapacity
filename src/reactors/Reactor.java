@@ -1,24 +1,23 @@
 package reactors;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class Reactor {
-    private String name;
-    private String country;
-    private ReactorType reactorType;
-    private String owner;
-    private String operator;
-    private String status;
-    private Integer thermalCapacity;
-    private Map<Integer, Double> loadFactors;
-    private Integer firstGridConnection;
-    private Integer suspendedDate;
-    private Integer permanentShutdownDate;
+    private final String name;
+    private final String country;
+    private final ReactorType reactorType;
+    private final String owner;
+    private final String operator;
+    private final String status;
+    private final Integer thermalCapacity;
+    private final Map<Integer, Double> loadFactors;
+    private final Integer firstGridConnection;
+    private final Integer suspendedDate;
+    private final Integer permanentShutdownDate;
 
-    public Reactor(String name, String country, ReactorType reactorType, String owner, String operator, String status,
-                   Integer thermalCapacity, Integer firstGridConnection, Integer suspendedDate,
-                   Integer permanentShutdownDate) {
+    public Reactor(String name, String country, ReactorType reactorType, String owner, String operator, String status, Integer thermalCapacity, Integer firstGridConnection, Integer suspendedDate, Integer permanentShutdownDate) {
         this.name = name;
         this.country = country;
         this.reactorType = reactorType;
@@ -36,56 +35,31 @@ public class Reactor {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
 
     public ReactorType getReactorType() {
         return reactorType;
     }
 
-    public void setReactorType(ReactorType reactorType) {
-        this.reactorType = reactorType;
-    }
 
     public String getOwner() {
         return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
     }
 
     public String getOperator() {
         return operator;
     }
 
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Integer getThermalCapacity() {
         return thermalCapacity;
-    }
-
-    public void setThermalCapacity(Integer thermalCapacity) {
-        this.thermalCapacity = thermalCapacity;
     }
 
     public void addLoadFactor(Integer year, Double loadFactor) {
@@ -96,9 +70,8 @@ public class Reactor {
     }
 
     public void fixLoadFactors() {
-        for (Integer year: loadFactors.keySet()) {
-            if ((year >= this.getSuspendedDate() && this.getSuspendedDate() != 0) ||
-                    (year >= this.getPermanentShutdownDate() && this.getPermanentShutdownDate() != 0)) {
+        for (Integer year : loadFactors.keySet()) {
+            if ((year >= this.getSuspendedDate() && this.getSuspendedDate() != 0) || (year >= this.getPermanentShutdownDate() && this.getPermanentShutdownDate() != 0)) {
                 loadFactors.put(year, 0.0);
             } else if (loadFactors.get(year) == 0 && year > this.getFirstGridConnection()) {
                 loadFactors.put(year, 85.0);
@@ -114,25 +87,15 @@ public class Reactor {
         return firstGridConnection;
     }
 
-    public void setFirstGridConnection(Integer firstGridConnection) {
-        this.firstGridConnection = firstGridConnection;
-    }
-
     public Integer getSuspendedDate() {
         return suspendedDate;
     }
 
-    public void setSuspendedDate(Integer suspendedDate) {
-        this.suspendedDate = suspendedDate;
-    }
 
     public Integer getPermanentShutdownDate() {
         return permanentShutdownDate;
     }
 
-    public void setPermanentShutdownDate(Integer permanentShutdownDate) {
-        this.permanentShutdownDate = permanentShutdownDate;
-    }
 
     @Override
     public String toString() {
