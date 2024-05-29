@@ -36,6 +36,10 @@ public class ExcelWriter {
     private void createSheet(Workbook workbook, Map<String, Map<Integer, Double>> data, String sheetName) {
         Sheet sheet = workbook.createSheet(sheetName);
 
+        sheet.setColumnWidth(0, 40 * 256);
+        sheet.setColumnWidth(1, 15 * 256);
+        sheet.setColumnWidth(2, 10 * 256);
+
         Row headerRow = sheet.createRow(0);
         headerRow.createCell(0).setCellValue(sheetName);
         headerRow.createCell(1).setCellValue("Потребление");
