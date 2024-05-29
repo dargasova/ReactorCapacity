@@ -105,7 +105,11 @@ public class Reactor {
     public String getFullDescription() {
         StringBuilder description = new StringBuilder();
         description.append("Страна: ").append(this.getCountry()).append("\n");
-        description.append("Тип: ").append(this.getReactorType().toString()).append("\n");
+        if (this.getReactorType() != null) {
+            description.append("Тип: ").append(this.getReactorType().toString()).append("\n");
+        } else {
+            description.append("Тип: Неизвестно\n");
+        }
         description.append("Владелец: ").append(this.getOwner()).append("\n");
         description.append("Оператор: ").append(this.getOperator()).append("\n");
         description.append("Статус: ").append(this.getStatus()).append("\n");
@@ -119,4 +123,7 @@ public class Reactor {
         }
         return description.toString();
     }
+
+
+
 }

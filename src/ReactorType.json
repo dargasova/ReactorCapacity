@@ -162,5 +162,25 @@
     "electrical_capacity": 1056,
     "life_time": 60,
     "first_load": 79.84
+  },
+
+  "LWGR": {
+    "class": "LWGR",
+    "burnup": 20
+  },
+
+  "GCR": {
+    "class": "GCR",
+    "burnup": 20
+  },
+
+  "FBR": {
+    "class": "FBR",
+    "burnup": 140
+  },
+
+  "HTGR": {
+    "class": "HTGR",
+    "burnup": 70
   }
 }
