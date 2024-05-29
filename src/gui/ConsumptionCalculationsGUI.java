@@ -12,9 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ConsumptionCalculationsGUI extends JDialog {
     private final ConsumptionCalculator calculator;
@@ -124,27 +123,37 @@ public class ConsumptionCalculationsGUI extends JDialog {
     private void addCalculateListeners() {
         byCountryButton.addActionListener(e -> {
             currentCountryData = calculator.calculateConsumptionByCountries();
+            currentCountryData = sortDataByCountry(currentCountryData);
             updateTable(currentCountryData, "Страна");
             enableExportButtonIfReady();
         });
 
         byOperatorButton.addActionListener(e -> {
             currentOperatorData = calculator.calculateConsumptionByOperator();
+            currentOperatorData = sortDataByCountry(currentOperatorData);
             updateTable(currentOperatorData, "Оператор");
             enableExportButtonIfReady();
         });
 
         byRegionButton.addActionListener(e -> {
             currentRegionData = calculator.calculateConsumptionByRegions(regions);
+            currentRegionData = sortDataByCountry(currentRegionData);
             updateTable(currentRegionData, "Регион");
             enableExportButtonIfReady();
         });
     }
 
+
     private void enableExportButtonIfReady() {
         if (currentCountryData != null && currentOperatorData != null && currentRegionData != null) {
             exportToExcelButton.setEnabled(true);
         }
+    }
+
+    private Map<String, Map<Integer, Double>> sortDataByCountry(Map<String, Map<Integer, Double>> data) {
+        Map<String, Map<Integer, Double>> sortedData = new TreeMap<>(Comparator.naturalOrder());
+        sortedData.putAll(data);
+        return sortedData;
     }
 
 

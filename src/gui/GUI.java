@@ -16,8 +16,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class GUI extends JFrame {
 
@@ -129,8 +128,7 @@ public class GUI extends JFrame {
 
     private void showFileChooser() {
         JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "Файлы базы данных", "db");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Файлы базы данных", "db");
         fileChooser.setFileFilter(filter);
         fileChooser.setCurrentDirectory(new File("./"));
         int result = fileChooser.showOpenDialog(null);
@@ -191,17 +189,33 @@ public class GUI extends JFrame {
         DefaultTreeModel treeModel = (DefaultTreeModel) reactorsTree.getModel();
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("Реакторы");
 
+        Map<String, DefaultMutableTreeNode> countryNodes = new HashMap<>();
+
         for (Map.Entry<String, List<Reactor>> entry : reactors.entrySet()) {
-            DefaultMutableTreeNode countryNode = new DefaultMutableTreeNode(entry.getKey());
-            root.add(countryNode);
+            String country = entry.getValue().getFirst().getCountry();
+
+            DefaultMutableTreeNode countryNode = countryNodes.get(country);
+
+            if (countryNode == null) {
+                countryNode = new DefaultMutableTreeNode(country);
+                countryNodes.put(country, countryNode);
+                root.add(countryNode);
+            }
 
             for (Reactor reactor : entry.getValue()) {
                 DefaultMutableTreeNode reactorNode = new DefaultMutableTreeNode(reactor);
                 countryNode.add(reactorNode);
             }
         }
+
+        List<DefaultMutableTreeNode> sortedCountryNodes = new ArrayList<>(countryNodes.values());
+        sortedCountryNodes.sort(Comparator.comparing(DefaultMutableTreeNode::toString));
+
+        sortedCountryNodes.forEach(root::add);
+
         treeModel.setRoot(root);
     }
+
 
     private void showErrorDialog(String message) {
         JOptionPane.showMessageDialog(null, message, "Ошибка", JOptionPane.ERROR_MESSAGE);
