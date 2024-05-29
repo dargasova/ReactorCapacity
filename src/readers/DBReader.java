@@ -1,8 +1,10 @@
-package importers;
+package readers;
+
 import reactors.Reactor;
 import reactors.ReactorType;
 import reactors.ReactorsTypesOwner;
 import regions.Regions;
+
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DatabaseImporter {
+public class DBReader {
 
     public static Map<String, List<Reactor>> importReactors(File file) throws SQLException {
         String DB_URL = "jdbc:sqlite:" + file.getAbsolutePath();

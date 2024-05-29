@@ -31,11 +31,11 @@ public class ReactorType {
 
     @Override
     public String toString() {
-        return  reactorClass;
+        return reactorClass;
     }
 
     public String getFullDescription() {
-        return  "Класс реактора " + reactorClass  + "\n"
+        return "Класс реактора " + reactorClass + "\n"
                 + "Выгорание " + burn_up + "\n"
                 + "КПД " + efficiency_factor + "\n"
                 + "Обогащение " + enrichment + "\n"

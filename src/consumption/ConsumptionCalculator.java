@@ -1,5 +1,6 @@
-package reactors;
+package consumption;
 
+import reactors.Reactor;
 import regions.Regions;
 
 import java.util.HashMap;

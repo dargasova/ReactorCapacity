@@ -1,23 +1,33 @@
-import reactors.ConsumptionCalculator;
+package gui;
+
+import consumption.ConsumptionCalculator;
+import excel.ExcelWriter;
 import reactors.Reactor;
 import regions.Regions;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ConsumptionCalculationsGUI extends JDialog {
+    private final ConsumptionCalculator calculator;
+    private final Regions regions;
     private JPanel contentPane;
     private JButton byCountryButton;
     private JButton byOperatorButton;
     private JButton byRegionButton;
+    private JButton exportToExcelButton;
     private JTable resultTable;
-    private final ConsumptionCalculator calculator;
-    private final Regions regions;
+    private Map<String, Map<Integer, Double>> currentCountryData;
+    private Map<String, Map<Integer, Double>> currentOperatorData;
+    private Map<String, Map<Integer, Double>> currentRegionData;
 
     public ConsumptionCalculationsGUI(Regions regions, Map<String, List<Reactor>> reactors) {
         this.regions = regions;
@@ -26,6 +36,14 @@ public class ConsumptionCalculationsGUI extends JDialog {
         initializeComponents();
         setupDialog();
         addListeners();
+    }
+
+    public static void main(String[] args) {
+        Regions regions = new Regions();
+        Map<String, List<Reactor>> reactors = new HashMap<>();
+        ConsumptionCalculationsGUI dialog = new ConsumptionCalculationsGUI(regions, reactors);
+        dialog.pack();
+        dialog.setVisible(true);
     }
 
     private void initializeComponents() {
@@ -44,6 +62,10 @@ public class ConsumptionCalculationsGUI extends JDialog {
         leftPanel.add(byOperatorButton, gbc);
         byRegionButton = createStyledButton("Регион");
         leftPanel.add(byRegionButton, gbc);
+
+        exportToExcelButton = createStyledButton("Экспорт в Excel");
+        exportToExcelButton.setEnabled(false);
+        leftPanel.add(exportToExcelButton, gbc);
 
         contentPane.add(leftPanel, BorderLayout.WEST);
 
@@ -76,6 +98,20 @@ public class ConsumptionCalculationsGUI extends JDialog {
     private void addListeners() {
         addCalculateListeners();
 
+        exportToExcelButton.addActionListener(e -> {
+            if (currentCountryData != null && currentOperatorData != null && currentRegionData != null) {
+                ExcelWriter writer = new ExcelWriter();
+                try {
+                    writer.writeToExcel(currentCountryData, currentOperatorData, currentRegionData);
+                    JOptionPane.showMessageDialog(this, "Данные успешно экспортированы в Excel.", "Экспорт завершен", JOptionPane.INFORMATION_MESSAGE);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(this, "Ошибка при экспорте данных в Excel: " + ex.getMessage(), "Ошибка", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Нет данных для экспорта.", "Ошибка", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -89,19 +125,28 @@ public class ConsumptionCalculationsGUI extends JDialog {
 
     private void addCalculateListeners() {
         byCountryButton.addActionListener(e -> {
-            Map<String, Map<Integer, Double>> consumptionByCountries = calculator.calculateConsumptionByCountries();
-            updateTable(consumptionByCountries, "Страна");
+            currentCountryData = calculator.calculateConsumptionByCountries();
+            updateTable(currentCountryData, "Страна");
+            enableExportButtonIfReady();
         });
 
         byOperatorButton.addActionListener(e -> {
-            Map<String, Map<Integer, Double>> consumptionByOperators = calculator.calculateConsumptionByOperator();
-            updateTable(consumptionByOperators, "Оператор");
+            currentOperatorData = calculator.calculateConsumptionByOperator();
+            updateTable(currentOperatorData, "Оператор");
+            enableExportButtonIfReady();
         });
 
         byRegionButton.addActionListener(e -> {
-            Map<String, Map<Integer, Double>> consumptionByRegions = calculator.calculateConsumptionByRegions(regions);
-            updateTable(consumptionByRegions, "Регион");
+            currentRegionData = calculator.calculateConsumptionByRegions(regions);
+            updateTable(currentRegionData, "Регион");
+            enableExportButtonIfReady();
         });
+    }
+
+    private void enableExportButtonIfReady() {
+        if (currentCountryData != null && currentOperatorData != null && currentRegionData != null) {
+            exportToExcelButton.setEnabled(true);
+        }
     }
 
     private void updateTable(Map<String, Map<Integer, Double>> data, String header) {
@@ -113,13 +158,5 @@ public class ConsumptionCalculationsGUI extends JDialog {
                         model.addRow(new Object[]{group, String.format("%1$.2f", consumption), year})));
 
         resultTable.setModel(model);
-    }
-
-    public static void main(String[] args) {
-        Regions regions = new Regions();
-        Map<String, List<Reactor>> reactors = new HashMap<>();
-        ConsumptionCalculationsGUI dialog = new ConsumptionCalculationsGUI(regions, reactors);
-        dialog.pack();
-        dialog.setVisible(true);
     }
 }

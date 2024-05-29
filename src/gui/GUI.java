@@ -1,5 +1,7 @@
-import importers.DatabaseImporter;
+package gui;
+
 import reactors.Reactor;
+import readers.DBReader;
 import regions.Regions;
 
 import javax.swing.*;
@@ -8,7 +10,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
@@ -33,6 +36,10 @@ public class GUI extends JFrame {
         createUIComponents();
         addListeners();
         setVisible(true);
+    }
+
+    public static void main(String[] args) throws URISyntaxException {
+        new GUI();
     }
 
     private void setLookAndFeel() {
@@ -169,8 +176,8 @@ public class GUI extends JFrame {
 
     private void fillTree(File file) {
         try {
-            reactors = new TreeMap<>(DatabaseImporter.importReactors(file));
-            regions = DatabaseImporter.importRegions(file);
+            reactors = new TreeMap<>(DBReader.importReactors(file));
+            regions = DBReader.importRegions(file);
             populateTree();
             reactorsTree.setEnabled(true);
             goCalculateButton.setEnabled(true);
@@ -198,9 +205,5 @@ public class GUI extends JFrame {
 
     private void showErrorDialog(String message) {
         JOptionPane.showMessageDialog(null, message, "Ошибка", JOptionPane.ERROR_MESSAGE);
-    }
-
-    public static void main(String[] args) throws URISyntaxException {
-        new GUI();
     }
 }

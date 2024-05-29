@@ -1,5 +1,7 @@
 package reactors;
-import importers.ReactorTypeImporterJSON;
+
+import readers.ReactorTypeReader;
+
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +13,7 @@ public class ReactorsTypesOwner {
     public ReactorsTypesOwner() {
         this.reactorsMap = new HashMap<>();
 
-        ReactorTypeImporterJSON reactorImporter = new ReactorTypeImporterJSON();
+        ReactorTypeReader reactorImporter = new ReactorTypeReader();
 
         try (InputStream inputStream = getClass().getResourceAsStream("/ReactorType.json")) {
             if (inputStream == null) {

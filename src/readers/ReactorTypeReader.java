@@ -1,9 +1,9 @@
-package importers;
+package readers;
 
-import reactors.ReactorType;
-import reactors.ReactorsTypesOwner;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import reactors.ReactorType;
+import reactors.ReactorsTypesOwner;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 
-public class ReactorTypeImporterJSON extends ReactorTypeImporter{
+public class ReactorTypeReader {
     public void importReactorsFromStream(InputStream file, ReactorsTypesOwner reactorsOwner) {
         try {
             Path tempFile = Files.createTempFile("ReactorType", ".json");
@@ -22,12 +22,11 @@ public class ReactorTypeImporterJSON extends ReactorTypeImporter{
             Files.copy(file, tempFile, StandardCopyOption.REPLACE_EXISTING);
 
             importReactorsFromFile(tempFile.toFile(), reactorsOwner);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    @Override
+
     public void importReactorsFromFile(File file, ReactorsTypesOwner reactorsOwner) {
         if (file.getName().endsWith(".json")) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -48,8 +47,6 @@ public class ReactorTypeImporterJSON extends ReactorTypeImporter{
                     reactorsOwner.addReactor(fieldName, reactor);
                 }
             }
-        } else if (nextImporter != null) {
-            nextImporter.importReactorsFromFile(file, reactorsOwner);
         } else {
             System.out.println("Неподдерживаемый формат");
         }

@@ -1,4 +1,6 @@
-import javax.swing.SwingUtilities;
+import gui.GUI;
+
+import javax.swing.*;
 import java.net.URISyntaxException;
 
 public class Main {

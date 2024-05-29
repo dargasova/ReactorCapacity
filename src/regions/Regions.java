@@ -1,12 +1,15 @@
 package regions;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Regions {
     private Map<String, List<String>> regions;
 
     public Regions() {
-        regions = new HashMap<String, List<String>>();
+        regions = new HashMap<>();
     }
 
     public void addCountry(String region, String country) {
@@ -19,18 +22,8 @@ public class Regions {
         }
     }
 
-    public Set<String> getRegions() {
-        return new TreeSet<>(regions.keySet());
-    }
-
-    public List<String> getCountries(String region) {
-        List<String> sortedCountries = new ArrayList<>(regions.get(region));
-        Collections.sort(sortedCountries);
-        return sortedCountries;
-    }
-
     public String getRegion(String country) {
-        for (String region: regions.keySet()) {
+        for (String region : regions.keySet()) {
             if (regions.get(region).contains(country)) {
                 return region;
             }
