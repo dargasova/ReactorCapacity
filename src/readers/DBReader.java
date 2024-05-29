@@ -2,7 +2,7 @@ package readers;
 
 import reactors.Reactor;
 import reactors.ReactorType;
-import reactors.ReactorsTypesOwner;
+import reactors.ReactorTypeManager;
 import regions.Regions;
 
 import java.io.File;
@@ -17,7 +17,7 @@ public class DBReader {
     public static Map<String, List<Reactor>> importReactors(File file) throws SQLException {
         String DB_URL = "jdbc:sqlite:" + file.getAbsolutePath();
 
-        ReactorsTypesOwner typesOwner = new ReactorsTypesOwner();
+        ReactorTypeManager typesOwner = new ReactorTypeManager();
         Map<String, ReactorType> types = typesOwner.getReactorMap();
 
         Map<String, List<Reactor>> reactorsByCountry = new HashMap<>();

@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ReactorsTypesOwner {
+public class ReactorTypeManager {
     private final Map<String, ReactorType> reactorsMap;
 
-    public ReactorsTypesOwner() {
+    public ReactorTypeManager() {
         this.reactorsMap = new HashMap<>();
 
         ReactorTypeReader reactorImporter = new ReactorTypeReader();

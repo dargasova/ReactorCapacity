@@ -3,7 +3,7 @@ package readers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import reactors.ReactorType;
-import reactors.ReactorsTypesOwner;
+import reactors.ReactorTypeManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 
 public class ReactorTypeReader {
-    public void importReactorsFromStream(InputStream file, ReactorsTypesOwner reactorsOwner) {
+    public void importReactorsFromStream(InputStream file, ReactorTypeManager reactorsOwner) {
         try {
             Path tempFile = Files.createTempFile("ReactorType", ".json");
             tempFile.toFile().deleteOnExit();
@@ -27,7 +27,7 @@ public class ReactorTypeReader {
         }
     }
 
-    public void importReactorsFromFile(File file, ReactorsTypesOwner reactorsOwner) {
+    public void importReactorsFromFile(File file, ReactorTypeManager reactorsOwner) {
         if (file.getName().endsWith(".json")) {
             ObjectMapper objectMapper = new ObjectMapper();
 
