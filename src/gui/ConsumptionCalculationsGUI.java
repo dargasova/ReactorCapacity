@@ -118,9 +118,7 @@ public class ConsumptionCalculationsGUI extends JDialog {
                 dispose();
             }
         });
-        contentPane.registerKeyboardAction(e -> dispose(),
-                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> dispose(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     private void addCalculateListeners() {
@@ -149,14 +147,19 @@ public class ConsumptionCalculationsGUI extends JDialog {
         }
     }
 
+
     private void updateTable(Map<String, Map<Integer, Double>> data, String header) {
         DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(new String[]{header, "Потребление", "Год"});
 
-        data.forEach((group, consumptionByYear) ->
-                consumptionByYear.forEach((year, consumption) ->
-                        model.addRow(new Object[]{group, String.format("%1$.2f", consumption), year})));
+        data.forEach((group, consumptionByYear) -> {
+            consumptionByYear.keySet().stream().sorted().forEach(year -> {
+                Double consumption = consumptionByYear.get(year);
+                model.addRow(new Object[]{group, String.format("%1$.2f", consumption), year});
+            });
+        });
 
         resultTable.setModel(model);
     }
+
 }

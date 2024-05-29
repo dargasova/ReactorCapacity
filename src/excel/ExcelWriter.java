@@ -10,7 +10,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class ExcelWriter {
     public void writeToExcel(Map<String, Map<Integer, Double>> countryData,
@@ -46,9 +50,12 @@ public class ExcelWriter {
         headerRow.createCell(2).setCellValue("Год");
 
         int rowNum = 1;
-        for (Map.Entry<String, Map<Integer, Double>> entry : data.entrySet()) {
+        for (Entry<String, Map<Integer, Double>> entry : data.entrySet()) {
             String group = entry.getKey();
-            for (Map.Entry<Integer, Double> yearEntry : entry.getValue().entrySet()) {
+            SortedSet<Entry<Integer, Double>> sortedEntries = new TreeSet<>(Comparator.comparing(Entry::getKey));
+            sortedEntries.addAll(entry.getValue().entrySet());
+
+            for (Entry<Integer, Double> yearEntry : sortedEntries) {
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(group);
                 row.createCell(1).setCellValue(yearEntry.getValue());

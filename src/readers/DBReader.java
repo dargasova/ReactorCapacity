@@ -20,30 +20,40 @@ public class DBReader {
         ReactorTypeManager typesOwner = new ReactorTypeManager();
         Map<String, ReactorType> types = typesOwner.getReactorMap();
 
-        Map<String, List<Reactor>> reactorsByCountry = new HashMap<>();
+        Map<String, List<Reactor>> reactorsByOperator = new HashMap<>();
 
         try (Connection conn = DriverManager.getConnection(DB_URL)) {
             if (conn != null) {
-                String reactorQuery = "SELECT * FROM reactors";
+                String operatorQuery = "SELECT DISTINCT operator FROM reactors";
                 try (Statement stmt = conn.createStatement();
-                     ResultSet rs = stmt.executeQuery(reactorQuery)) {
+                     ResultSet rs = stmt.executeQuery(operatorQuery)) {
 
                     while (rs.next()) {
-                        String name = rs.getString("name");
-                        String country = rs.getString("country");
-                        ReactorType reactorType = types.get(rs.getString("type"));
-                        String owner = rs.getString("owner");
                         String operator = rs.getString("operator");
-                        String status = rs.getString("status");
-                        Integer thermalCapacity = rs.getInt("thermalCapacity");
-                        Integer firstGridConnection = rs.getInt("firstGridConnection");
-                        Integer suspendedDate = rs.getInt("suspendedDate");
-                        Integer permanentShutdownDate = rs.getInt("permanentShutdownDate");
+                        List<Reactor> operatorReactors = new ArrayList<>();
+                        String reactorQuery = "SELECT * FROM reactors WHERE operator = ?";
+                        try (PreparedStatement reactorStmt = conn.prepareStatement(reactorQuery)) {
+                            reactorStmt.setString(1, operator);
+                            try (ResultSet reactorRs = reactorStmt.executeQuery()) {
+                                while (reactorRs.next()) {
+                                    String name = reactorRs.getString("name");
+                                    String country = reactorRs.getString("country");
+                                    ReactorType reactorType = types.get(reactorRs.getString("type"));
+                                    String owner = reactorRs.getString("owner");
+                                    String status = reactorRs.getString("status");
+                                    Integer thermalCapacity = reactorRs.getInt("thermalCapacity");
+                                    Integer firstGridConnection = reactorRs.getInt("firstGridConnection");
+                                    Integer suspendedDate = reactorRs.getInt("suspendedDate");
+                                    Integer permanentShutdownDate = reactorRs.getInt("permanentShutdownDate");
 
-                        Reactor reactor = new Reactor(name, country, reactorType, owner, operator, status,
-                                thermalCapacity, firstGridConnection, suspendedDate, permanentShutdownDate);
+                                    Reactor reactor = new Reactor(name, country, reactorType, owner, operator, status,
+                                            thermalCapacity, firstGridConnection, suspendedDate, permanentShutdownDate);
 
-                        reactorsByCountry.computeIfAbsent(country, k -> new ArrayList<>()).add(reactor);
+                                    operatorReactors.add(reactor);
+                                }
+                            }
+                        }
+                        reactorsByOperator.put(operator, operatorReactors);
                     }
                 }
 
@@ -56,7 +66,7 @@ public class DBReader {
                         Integer year = rs.getInt("year");
                         Double loadFactor = rs.getDouble("loadFactor");
 
-                        reactorsByCountry.values().stream()
+                        reactorsByOperator.values().stream()
                                 .flatMap(List::stream)
                                 .filter(reactor -> reactor.getName().equals(name))
                                 .findFirst()
@@ -65,7 +75,7 @@ public class DBReader {
                 }
             }
 
-            reactorsByCountry.values().stream()
+            reactorsByOperator.values().stream()
                     .flatMap(List::stream)
                     .forEach(Reactor::fixLoadFactors);
 
@@ -74,8 +84,9 @@ public class DBReader {
             throw new SQLException(e);
         }
 
-        return reactorsByCountry;
+        return reactorsByOperator;
     }
+
 
     public static Regions importRegions(File file) throws SQLException {
         Regions regions = new Regions();

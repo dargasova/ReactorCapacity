@@ -6,6 +6,7 @@ import regions.Regions;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Function;
 
 public class ConsumptionCalculator {
@@ -16,7 +17,7 @@ public class ConsumptionCalculator {
     }
 
     public Map<Integer, Double> calculateReactorConsumption(Reactor reactor) {
-        Map<Integer, Double> consumptionPerYear = new HashMap<>();
+        Map<Integer, Double> consumptionPerYear = new TreeMap<>();
 
         reactor.fixLoadFactors();
 
@@ -40,6 +41,7 @@ public class ConsumptionCalculator {
     public Map<String, Map<Integer, Double>> calculateConsumptionByOperator() {
         return calculateConsumption(Reactor::getOperator);
     }
+
 
     private Map<String, Map<Integer, Double>> calculateConsumption(Function<Reactor, String> keyExtractor) {
         Map<String, Map<Integer, Double>> consumption = new HashMap<>();
