@@ -34,6 +34,10 @@ public class ReactorType {
         return reactorClass;
     }
 
+    public Double getBurnUp() {
+        return burn_up;
+    }
+
     public String getFullDescription() {
         return "Класс реактора " + reactorClass + "\n"
                 + "Выгорание " + burn_up + "\n"

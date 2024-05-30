@@ -1,7 +1,7 @@
 {
   "MKER": {
     "class": "MKER",
-    "burnup": 30,
+    "burn_up": 30,
     "kpd": 0.352,
     "enrichment": 0.024,
     "termal_capacity": 4250,
@@ -12,7 +12,7 @@
 
   "RBMK": {
     "class": "RBMK",
-    "burnup": 25,
+    "burn_up": 25,
     "kpd": 0.3125,
     "enrichment": 0.027,
     "termal_capacity": 3200,
@@ -23,7 +23,7 @@
 
   "VVER_1000": {
     "class": "VVER-1200",
-    "burnup": 40,
+    "burn_up": 40,
     "kpd": 0.33,
     "enrichment": 0.0385,
     "termal_capacity": 3200,
@@ -34,7 +34,7 @@
 
   "AP1000": {
     "class": "AP1000",
-    "burnup": 43.20,
+    "burn_up": 43.20,
     "kpd": 0.339,
     "enrichment": 0.048,
     "termal_capacity": 3415,
@@ -45,7 +45,7 @@
 
   "BWR" : {
     "class": "BWR",
-    "burnup": 45,
+    "burn_up": 45,
     "kpd": 0.343,
     "enrichment": 0.041,
     "termal_capacity": 3572,
@@ -56,7 +56,7 @@
 
   "ABWR" : {
     "class": "ABWR",
-    "burnup": 46.40,
+    "burn_up": 46.40,
     "kpd": 0.3655,
     "enrichment": 0.036,
     "termal_capacity": 4500,
@@ -67,7 +67,7 @@
 
   "EPR" : {
     "class": "EPR",
-    "burnup": 36.10,
+    "burn_up": 36.10,
     "kpd": 0.3515,
     "enrichment": 0.032,
     "termal_capacity": 3992,
@@ -78,7 +78,7 @@
 
   "MAGNOX" : {
     "class": "MAGNOX",
-    "burnup": 4.5,
+    "burn_up": 4.5,
     "kpd": 0.23,
     "enrichment": 0.01,
     "termal_capacity": 728,
@@ -89,7 +89,7 @@
 
   "BN" : {
     "class": "BN",
-    "burnup": 140,
+    "burn_up": 140,
     "kpd": 42.05,
     "enrichment": 0.21,
     "termal_capacity": 2800,
@@ -100,7 +100,7 @@
 
   "PWR" : {
     "class": "PWR",
-    "burnup": 42.0,
+    "burn_up": 42.0,
     "kpd": 34.0,
     "enrichment": 0.045,
     "termal_capacity": 3411,
@@ -111,7 +111,7 @@
 
   "CPR_1000" : {
     "class": "CPR-1000",
-    "burnup": 52.0,
+    "burn_up": 52.0,
     "kpd": 35.1,
     "enrichment": 0.045,
     "termal_capacity": 2900,
@@ -122,7 +122,7 @@
 
   "CANDU" : {
     "class": "CANDU",
-    "burnup": 8,
+    "burn_up": 8,
     "kpd": 0.30,
     "enrichment": 0.0071,
     "termal_capacity": 2343,
@@ -133,7 +133,7 @@
 
   "PHWR" : {
     "class": "PHWR",
-    "burnup": 8,
+    "burn_up": 8,
     "kpd": 0.30,
     "enrichment": 0.0071,
     "termal_capacity": 2343,
@@ -144,7 +144,7 @@
 
   "KLT_40" : {
     "class": "KLT-40",
-    "burnup": 42,
+    "burn_up": 42,
     "kpd": 0.30,
     "enrichment": 0.16,
     "termal_capacity": 150,
@@ -155,7 +155,7 @@
 
   "PWR_TEST" : {
     "class": "PWR",
-    "burnup": 40,
+    "burn_up": 40,
     "kpd": 0.33,
     "enrichment": 0.044,
     "termal_capacity": 3200,
@@ -166,21 +166,21 @@
 
   "LWGR": {
     "class": "LWGR",
-    "burnup": 20
+    "burn_up": 20
   },
 
   "GCR": {
     "class": "GCR",
-    "burnup": 20
+    "burn_up": 20
   },
 
   "FBR": {
     "class": "FBR",
-    "burnup": 140
+    "burn_up": 140
   },
 
   "HTGR": {
     "class": "HTGR",
-    "burnup": 70
+    "burn_up": 70
   }
 }

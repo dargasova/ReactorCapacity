@@ -21,14 +21,18 @@ public class ConsumptionCalculator {
 
         reactor.fixLoadFactors();
 
+        Double burnUp = reactor.getReactorType().getBurnUp();
+
         for (Integer year : reactor.getLoadFactors().keySet()) {
             Double loadFactor = reactor.getLoadFactors().get(year);
-            Double consumption = reactor.getThermalCapacity() * loadFactor / 100.0 * 365;
+            Double consumption = (reactor.getThermalCapacity() / burnUp) * (loadFactor / 100000.0) * 365;
             consumptionPerYear.put(year, consumption);
         }
 
         return consumptionPerYear;
     }
+
+
 
     public Map<String, Map<Integer, Double>> calculateConsumptionByCountries() {
         return calculateConsumption(Reactor::getCountry);
@@ -41,7 +45,6 @@ public class ConsumptionCalculator {
     public Map<String, Map<Integer, Double>> calculateConsumptionByOperator() {
         return calculateConsumption(Reactor::getOperator);
     }
-
 
     private Map<String, Map<Integer, Double>> calculateConsumption(Function<Reactor, String> keyExtractor) {
         Map<String, Map<Integer, Double>> consumption = new HashMap<>();
