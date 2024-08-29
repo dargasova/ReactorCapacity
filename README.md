@@ -1,7 +1,3 @@
-Концептуальный уровень БД
-
-![image](https://github.com/user-attachments/assets/5e435fe1-96fa-43c3-a1f6-fda7ec95d989)
-
 ER-модель базы данных на логическом уровне
 
 ![image](https://github.com/user-attachments/assets/5c391ef3-bc8f-422b-ba04-3e1b6eea0c21)
