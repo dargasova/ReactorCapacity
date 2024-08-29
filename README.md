@@ -14,10 +14,10 @@ ER-модель базы данных на логическом уровне
 
 Окно расчетов
 
-![image](https://github.com/user-attachments/assets/d8abad62-89f9-4f7c-ae48-a87e53ae365f)
+![image](https://github.com/user-attachments/assets/8bb8edef-ed87-41c2-8761-827ceb4715c6)
 
 Экспорт расчетов в Excel
 
-![image](https://github.com/user-attachments/assets/9ee143ad-b44e-424e-b1e8-0d2abdbfe1af)
+![image](https://github.com/user-attachments/assets/00a73b6d-88b2-46e7-94b1-2ffc33bde74c)
 
 
